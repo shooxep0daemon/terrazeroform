@@ -1,0 +1,7 @@
+---
+# tasks file for dockerhubconn
+- name: Ensure that we have access to the DOCKERHUB
+  docker_login:
+    username: '{{ dhub_user }}'
+    email: '{{ dhub_email }}'
+    password: '{{ dhub_passwd }}'

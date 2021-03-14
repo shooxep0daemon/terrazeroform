@@ -1,0 +1,10 @@
+---
+# tasks file for docker_host
+- name: Pull an image fromy our DH and run it
+  docker_container:
+    name: boxfuse1
+    image: '{{ my_boxfuse }}'
+    state: started
+    pull: true
+    ports:
+      - "8080:8080"
