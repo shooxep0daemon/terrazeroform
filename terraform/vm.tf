@@ -43,7 +43,7 @@ resource "google_compute_instance" "instance_with_ip" {
     }
 }
 
-resource "google_compute_instance" "instance_with_ip" {
+resource "google_compute_instance" "instance_with_ip2" {
     name         = "prod-vm"
     machine_type = "e2-medium" // 2vCPU, 4GB RAM
     zone         = "${var.zone}"
