@@ -1,6 +1,6 @@
 project_name         = "My First Project"
 gcp_credentials_path = "/home/newshoosha/gkey.json"
-region               = "a"
+region               = "europe-north1-a"
 zone                 = "europe-north1"
 ssh_username         = "ubuntu"
 ssh_pub_key_path     = "~/.ssh/gkey"
