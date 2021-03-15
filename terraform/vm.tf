@@ -42,6 +42,10 @@ resource "google_compute_instance" "instance_with_ip" {
         }
     }
 }
+// Expose IP of first VM
+output "buildmachineip" {
+ value = "${google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip}"
+}
 
 resource "google_compute_instance" "instance_with_ip2" {
     name         = "prod-vm"
@@ -65,11 +69,7 @@ resource "google_compute_instance" "instance_with_ip2" {
         }
     }
 }
-
-// Expose IP of VMs
-output "buildmachineip" {
- value = "${google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip}"
-}
+// Expose IP of first VM
 output "runmachineip" {
  value = "${google_compute_instance.instance_with_ip2.network_interface.0.access_config.0.nat_ip}"
 }
@@ -83,8 +83,8 @@ resource "null_resource" "ansible_hosts_provisioner" {
       echo $buildmachineip;
       export runmachineip=$(terraform output runmachineip);
       echo $runmachineip;
-      sed -i -e "s/builder_ip/$buildmachineip/g" ./inventory/hosts;
-      sed -i -e "s/prodrunner_ip/$runmachineip/g" ./inventory/hosts;
+      sed -i -e "s/builderip/$buildmachineip/g" ./inventory/hosts;
+      sed -i -e "s/prodrunnerip/$runmachineip/g" ./inventory/hosts;
       sed -i -e 's/"//g' ./inventory/hosts;
       export ANSIBLE_HOST_KEY_CHECKING=False
     EOT
