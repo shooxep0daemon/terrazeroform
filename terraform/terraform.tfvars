@@ -1,4 +1,4 @@
-project_name         = "My First Project"
+project_name         = "formal-branch-298717"
 gcp_credentials_path = "/home/newshoosha/gkey.json"
 region               = "europe-north1-a"
 zone                 = "europe-north1"
