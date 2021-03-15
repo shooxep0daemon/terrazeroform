@@ -75,7 +75,6 @@ output "runmachineip" {
 }
 //create inventory
 resource "null_resource" "ansible_hosts_provisioner" {
-  depends_on = [time_sleep.wait_30_seconds]
   provisioner "local-exec" {
     interpreter = ["/bin/bash" ,"-c"]
     command = <<EOT
