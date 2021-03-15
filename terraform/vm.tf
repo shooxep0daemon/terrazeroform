@@ -84,7 +84,7 @@ resource "null_resource" "ansible_hosts_provisioner" {
       export runmachineip=$(terraform output runmachineip);
       echo $runmachineip;
       sed -i -e "s/builder_ip/$buildmachineip/g" ./inventory/hosts;
-      sed -i -e "s/prodrunner_ip/$runmachinei/g" ./inventory/hosts;
+      sed -i -e "s/prodrunner_ip/$runmachineip/g" ./inventory/hosts;
       sed -i -e 's/"//g' ./inventory/hosts;
       export ANSIBLE_HOST_KEY_CHECKING=False
     EOT
