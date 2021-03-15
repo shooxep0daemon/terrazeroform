@@ -75,6 +75,7 @@ output "runmachineip" {
 }
 //create inventory
 resource "null_resource" "ansible_hosts_provisioner" {
+   depends_on = [google_compute_instance.instance_with_ip2]
   provisioner "local-exec" {
     interpreter = ["/bin/bash" ,"-c"]
     command = <<EOT
