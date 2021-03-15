@@ -1,4 +1,4 @@
-project_name         = "ansiproject"
+project_name         = "My First Project"
 gcp_credentials_path = "/home/newshoosha/gkey.json"
 region               = "a"
 zone                 = "europe-north1"
