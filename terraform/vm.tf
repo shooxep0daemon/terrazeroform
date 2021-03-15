@@ -44,7 +44,7 @@ resource "google_compute_instance" "instance_with_ip" {
 }
 // Expose IP of first VM
 output "buildmachineip" {
- value = "${google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip}"
+ value = google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip
 }
 
 resource "google_compute_instance" "instance_with_ip2" {
@@ -71,7 +71,7 @@ resource "google_compute_instance" "instance_with_ip2" {
 }
 // Expose IP of first VM
 output "runmachineip" {
- value = "${google_compute_instance.instance_with_ip2.network_interface.0.access_config.0.nat_ip}"
+ value = google_compute_instance.instance_with_ip2.network_interface.0.access_config.0.nat_ip
 }
 //create inventory
 resource "null_resource" "ansible_hosts_provisioner" {
@@ -80,9 +80,9 @@ resource "null_resource" "ansible_hosts_provisioner" {
     interpreter = ["/bin/bash" ,"-c"]
     command = <<EOT
       export terraform_buildmachineip=$(terraform output buildmachineip);
-      echo $terraform_buildmachineip;
+      echo buildip=$terraform_buildmachineip;
       export terraform_runmachineip=$(terraform output runmachineip);
-      echo $terraform_runmachineip;
+      echo runip=$terraform_runmachineip;
       sed -i -e "s/builderip/$terraform_buildmachineip/g" ./inventory/hosts;
       sed -i -e "s/prodrunnerip/$terraform_runmachineip/g" ./inventory/hosts;
       sed -i -e 's/"//g' ./inventory/hosts;
