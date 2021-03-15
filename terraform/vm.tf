@@ -22,12 +22,12 @@ resource "google_compute_firewall" "default" {
 // Define VM resource
 resource "google_compute_instance" "instance_with_ip" {
     name         = "drone-vm"
-    machine_type = "f1-micro"
+    machine_type = "e2-medium" // 2vCPU, 4GB RAM
     zone         = "${var.zone}"
 
     boot_disk {
         initialize_params{
-            image = "debian-cloud/debian-9"
+            image = "ubuntu-os-cloud/ubuntu-2004-lts"
         }
     }
 
