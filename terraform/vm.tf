@@ -66,7 +66,27 @@ resource "google_compute_instance" "instance_with_ip2" {
     }
 }
 
-// Expose IP of VM
-output "ip" {
+// Expose IP of VMs
+output "buildmachineip" {
  value = "${google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip}"
+}
+output "runmachineip" {
+ value = "${google_compute_instance.instance_with_ip2.network_interface.0.access_config.0.nat_ip}"
+}
+//create inventory
+resource "null_resource" "ansible_hosts_provisioner" {
+  depends_on = [time_sleep.wait_30_seconds]
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash" ,"-c"]
+    command = <<EOT
+      export buildmachineip=$(terraform output buildmachineip);
+      echo $buildmachineip;
+      export runmachineip=$(terraform output runmachineip);
+      echo $runmachineip;
+      sed -i -e "s/builder_ip/$buildmachineip/g" ./inventory/hosts;
+      sed -i -e "s/prodrunner_ip/$runmachinei/g" ./inventory/hosts;
+      sed -i -e 's/"//g' ./inventory/hosts;
+      export ANSIBLE_HOST_KEY_CHECKING=False
+    EOT
+  }
 }
