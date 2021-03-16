@@ -85,11 +85,12 @@ resource "null_resource" "ansible_hosts_provisioner" {
   provisioner "local-exec" {
     interpreter = ["/bin/bash" ,"-c"]
     command = <<EOT
-      echo "[builderip] 
-            $(terraform output buildmachineip)
-    
-            [prodrunner]
-            $(terraform output runmachineip)" > ./inventory/hosts
+      cat <<EOF >./inventory/hosts
+[builderip] 
+$(terraform output buildmachineip)
+[prodrunner]
+$(terraform output runmachineip) 
+EOF
       export ANSIBLE_HOST_KEY_CHECKING=False
     EOT
   }
