@@ -86,12 +86,19 @@ resource "null_resource" "ansible_hosts_provisioner" {
     interpreter = ["/bin/bash" ,"-c"]
     command = <<EOT
       cat <<EOF >./inventory/hosts
-[builderip] 
+[builderhost] 
 $(terraform output buildmachineip)
-[prodrunner]
-$(terraform output runmachineip) 
+[prodhost]
+$(terraform output runmachineip)
 EOF
       export ANSIBLE_HOST_KEY_CHECKING=False
     EOT
+  }
+}
+// run playbook on created hosts
+resource "null_resource" "ansible_playbook_provisioner" {
+  depends_on = [null_resource.ansible_hosts_provisioner]
+  provisioner "local-exec" {
+    command = "ansible-playbook -u ${var.ssh_username} --vault-password-file 'vault_pass' --private-key '${var.ssh_pub_key_path}' -i /inventory/hosts roles.yml"
   }
 }
