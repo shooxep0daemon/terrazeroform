@@ -1,6 +1,6 @@
 ---
 - name: builder env server
-  hosts: builderhost
+  hosts: builderhosts
   become: yes
 
   roles: 
@@ -9,7 +9,7 @@
    - docker_works
 
 - name: runner env server
-  hosts: prodhost
+  hosts: prodhosts
   become: yes
 
   roles:
