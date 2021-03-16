@@ -73,9 +73,15 @@ resource "google_compute_instance" "instance_with_ip2" {
 output "runmachineip" {
  value = google_compute_instance.instance_with_ip2.network_interface.0.access_config.0.nat_ip
 }
-//create inventory
+//wait 30 secs times
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [null_resource.previous]
+
+  create_duration = "30s"
+}
+//create inventory after 30 secs
 resource "null_resource" "ansible_hosts_provisioner" {
-   depends_on = [google_compute_instance.instance_with_ip2,google_compute_instance.instance_with_ip2]
+   depends_on = [time_sleep.wait_30_seconds]
   provisioner "local-exec" {
     interpreter = ["/bin/bash" ,"-c"]
     command = <<EOT
