@@ -73,9 +73,9 @@ resource "google_compute_instance" "instance_with_ip2" {
 output "runmachineip" {
  value = google_compute_instance.instance_with_ip2.network_interface.0.access_config.0.nat_ip
 }
-//wait 30 secs times
+//wait 30 secs to complete creation
 resource "time_sleep" "wait_30_seconds" {
-  depends_on = [null_resource.previous]
+  depends_on = [google_compute_instance.instance_with_ip2]
 
   create_duration = "30s"
 }
