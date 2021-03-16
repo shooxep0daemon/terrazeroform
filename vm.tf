@@ -1,7 +1,3 @@
-resource "google_compute_address" "static" {
-  name = "ipv4-address"
-}
-
 resource "google_compute_firewall" "default" {
  name    = "drone-firewall"
  network = "default"
